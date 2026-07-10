@@ -684,3 +684,11 @@ git add README.md && git commit -m "docs: README with submission log"
 
 Фичи: поиск по имени/телефону, удаление клиента с confirm, поле «суть дела» (`caseNote`), экспорт CSV.
 Логика (searchClients, toCsv) — TDD в `clients-logic`; `deleteClient` в API; UI: поле поиска и кнопка CSV в тулбаре над таблицей, колонка «Суть дела», кнопка удаления в строке (inline SVG). CSV с BOM и `;` для Excel. Смоук через gstack, затем деплой.
+
+---
+
+### Task 9: Экспорт-меню, авторизация, тонкая линейка (по запросу пользователя)
+
+1. Линейка шапки: убрать толстую 3px, оставить 1px.
+2. CSV: кнопка → popover-меню: scope (текущая выборка / вся база / добавленные после последнего экспорта — метка в localStorage) + сортировка (новые/старые/по имени). Чистая логика sortClients/filterAddedSince — TDD.
+3. Firebase Auth (email/password) + per-user данные: ownerId в документах, query where(ownerId==uid) с клиентской сортировкой (без composite index), rules «только свои записи» (пользователь публикует в консоли), экран входа/регистрации в стиле анкора, кнопка выхода. README: обновить компромиссы.
