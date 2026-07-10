@@ -8,6 +8,7 @@ import { ExportMenu } from './components/ExportMenu';
 import { logOut, watchAuth, type User } from './lib/auth-api';
 import { addClient, deleteClient, subscribeClients, updateClient, updateClientStatus } from './lib/clients-api';
 import { countByStatus, filterByStatus, searchClients, sortClients } from './lib/clients-logic';
+import { notifyNewClient } from './lib/notify';
 import type { Client, ClientStatus } from './types';
 
 function Dashboard({ user }: { user: User }) {
@@ -84,7 +85,12 @@ function Dashboard({ user }: { user: User }) {
           <button className="account__logout" onClick={logOut}>Выйти</button>
         </div>
       </header>
-      <AddClientForm onAdd={(input) => addClient(user.uid, input)} />
+      <AddClientForm
+        onAdd={async (input) => {
+          await addClient(user.uid, input);
+          notifyNewClient(input);
+        }}
+      />
       <Counters counts={counts} active={filter} onToggle={(s) => setFilter(filter === s ? null : s)} />
       <div className="toolbar">
         <input
