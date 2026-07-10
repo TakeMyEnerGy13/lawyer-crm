@@ -58,9 +58,40 @@ select {
 /* Header — document letterhead: serif title + double rule */
 
 .page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 24px;
   padding-bottom: 16px;
   position: relative;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.account__email {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.account__logout {
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.account__logout:hover {
+  background: var(--surface-hover);
 }
 
 .page__header::after {
@@ -69,9 +100,8 @@ select {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 5px;
-  border-top: 1px solid var(--text);
-  border-bottom: 3px solid var(--text);
+  height: 1px;
+  background: var(--text);
 }
 
 .page__header h1 {
@@ -249,6 +279,188 @@ select {
 .toolbar__export:disabled {
   opacity: 0.45;
   cursor: default;
+}
+
+/* Export menu (popover) */
+
+.export {
+  position: relative;
+}
+
+.export__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 10;
+  width: 280px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px oklch(0.26 0.012 75 / 0.12);
+}
+
+.export__group {
+  margin: 0 0 12px;
+  padding: 0;
+  border: none;
+}
+
+.export__group legend,
+.export__sort {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.export__group legend {
+  padding: 0 0 6px;
+}
+
+.export__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.export__option input {
+  accent-color: var(--accent);
+}
+
+.export__count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.export__sort {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.export__sort select {
+  height: 32px;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.export__go {
+  width: 100%;
+  height: 34px;
+  background: var(--accent);
+  color: oklch(0.98 0.005 85);
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.export__go:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.export__go:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Auth screen */
+
+.auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth__card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.auth__card h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.auth__subtitle {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.auth__card input {
+  height: 36px;
+  padding: 0 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.auth__card input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth__submit {
+  height: 36px;
+  margin-top: 4px;
+  background: var(--accent);
+  color: oklch(0.98 0.005 85);
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.auth__submit:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.auth__submit:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.auth__switch {
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth__switch:hover {
+  color: var(--text);
 }
 
 /* Table */

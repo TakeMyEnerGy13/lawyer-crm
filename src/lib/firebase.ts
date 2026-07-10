@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // Public web config — safe to commit (see README, "Security tradeoffs")
@@ -11,4 +12,6 @@ const firebaseConfig = {
   appId: '1:221455833463:web:30e2dcf5f1abbff943e972',
 };
 
-export const db = getFirestore(initializeApp(firebaseConfig));
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);

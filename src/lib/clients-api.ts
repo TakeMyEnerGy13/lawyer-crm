@@ -1,17 +1,20 @@
 import {
-  addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query,
-  serverTimestamp, updateDoc, type Timestamp,
+  addDoc, collection, deleteDoc, doc, onSnapshot, query,
+  serverTimestamp, updateDoc, where, type Timestamp,
 } from 'firebase/firestore';
 import type { Client, ClientStatus } from '../types';
 import { db } from './firebase';
 
 const clientsCol = collection(db, 'clients');
 
+// No server-side orderBy: where + orderBy would need a composite index,
+// sorting happens client-side (sortClients).
 export function subscribeClients(
+  uid: string,
   onChange: (clients: Client[]) => void,
   onError: (e: Error) => void,
 ): () => void {
-  const q = query(clientsCol, orderBy('createdAt', 'desc'));
+  const q = query(clientsCol, where('ownerId', '==', uid));
   return onSnapshot(q, (snap) => {
     onChange(snap.docs.map((d) => {
       const data = d.data();
@@ -27,10 +30,10 @@ export function subscribeClients(
   }, onError);
 }
 
-export async function addClient(input: {
+export async function addClient(uid: string, input: {
   name: string; phone: string; status: ClientStatus; caseNote: string;
 }): Promise<void> {
-  await addDoc(clientsCol, { ...input, createdAt: serverTimestamp() });
+  await addDoc(clientsCol, { ...input, ownerId: uid, createdAt: serverTimestamp() });
 }
 
 export async function updateClientStatus(id: string, status: ClientStatus): Promise<void> {

@@ -25,6 +25,21 @@ export function searchClients(clients: Client[], query: string): Client[] {
   });
 }
 
+export type SortMode = 'newest' | 'oldest' | 'name';
+
+// Pending serverTimestamp (createdAt: null) is treated as "just now".
+const ts = (c: Client) => c.createdAt?.getTime() ?? Number.POSITIVE_INFINITY;
+
+export function sortClients(clients: Client[], mode: SortMode): Client[] {
+  const copy = [...clients];
+  if (mode === 'name') return copy.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+  return copy.sort((a, b) => (mode === 'newest' ? ts(b) - ts(a) : ts(a) - ts(b)));
+}
+
+export function filterAddedSince(clients: Client[], since: number | null): Client[] {
+  return since === null ? clients : clients.filter((c) => ts(c) > since);
+}
+
 const csvDateFmt = new Intl.DateTimeFormat('ru-RU', {
   day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
 });
