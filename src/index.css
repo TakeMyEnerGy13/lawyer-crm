@@ -811,11 +811,79 @@ select {
     padding: 8px 10px;
   }
 
-  /* hide case note (4) and date (6) columns; checkbox is column 1 */
-  .clients th:nth-child(4),
-  .clients td:nth-child(4),
-  .clients th:nth-child(6),
-  .clients td:nth-child(6) {
+  /* table becomes a card list: all fields stay visible */
+  .clients thead {
+    display: none;
+  }
+
+  .clients,
+  .clients tbody {
+    display: block;
+  }
+
+  .clients tbody tr {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    grid-template-areas:
+      'check name   status'
+      '.     phone  actions'
+      '.     note   actions'
+      '.     date   actions';
+    column-gap: 8px;
+    row-gap: 2px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .clients tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .clients td {
+    display: block;
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .clients .clients__check {
+    grid-area: check;
+    width: auto;
+    padding-top: 2px;
+  }
+
+  .clients .clients__name {
+    grid-area: name;
+    font-size: 15px;
+  }
+
+  .clients .clients__status {
+    grid-area: status;
+    justify-self: end;
+  }
+
+  .clients .clients__phone {
+    grid-area: phone;
+    color: var(--text-muted);
+  }
+
+  .clients .clients__note {
+    grid-area: note;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .clients .clients__date {
+    grid-area: date;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .clients .clients__actions {
+    grid-area: actions;
+    align-self: end;
+  }
+
+  .clients .dash {
     display: none;
   }
 }

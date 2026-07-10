@@ -67,9 +67,9 @@ export function ClientsTable({
               />
             </td>
             <td className="clients__name">{c.name}</td>
-            <td className="clients__phone">{c.phone || '—'}</td>
-            <td className="clients__note">{c.caseNote || '—'}</td>
-            <td><StatusBadge status={c.status} onChange={(next) => onStatusChange(c.id, next)} /></td>
+            <td className="clients__phone">{c.phone || <span className="dash">—</span>}</td>
+            <td className="clients__note">{c.caseNote || <span className="dash">—</span>}</td>
+            <td className="clients__status"><StatusBadge status={c.status} onChange={(next) => onStatusChange(c.id, next)} /></td>
             <td className="clients__date">{c.createdAt ? dateFmt.format(c.createdAt) : '…'}</td>
             <td className="clients__actions">
               <button className="row-action" onClick={() => onOpen(c)} aria-label={`Открыть карточку ${c.name}`} title="Открыть карточку">
