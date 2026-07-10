@@ -5,7 +5,7 @@ import { ClientCard } from './components/ClientCard';
 import { ClientsTable } from './components/ClientsTable';
 import { Counters } from './components/Counters';
 import { ExportMenu } from './components/ExportMenu';
-import { logOut, watchAuth, type User } from './lib/auth-api';
+import { accountLabel, logOut, watchAuth, type User } from './lib/auth-api';
 import { addClient, deleteClient, subscribeClients, updateClient, updateClientStatus } from './lib/clients-api';
 import { countByStatus, filterByStatus, searchClients, sortClients } from './lib/clients-logic';
 import { notifyNewClient } from './lib/notify';
@@ -81,14 +81,14 @@ function Dashboard({ user }: { user: User }) {
           <p className="page__subtitle">Клиенты и статусы дел — обновляется в реальном времени</p>
         </div>
         <div className="account">
-          <span className="account__email">{user.email}</span>
+          <span className="account__email">{accountLabel(user)}</span>
           <button className="account__logout" onClick={logOut}>Выйти</button>
         </div>
       </header>
       <AddClientForm
         onAdd={async (input) => {
           await addClient(user.uid, input);
-          notifyNewClient({ ...input, account: user.email ?? '' });
+          notifyNewClient({ ...input, account: accountLabel(user) });
         }}
       />
       <Counters counts={counts} active={filter} onToggle={(s) => setFilter(filter === s ? null : s)} />

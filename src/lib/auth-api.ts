@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
   type User,
@@ -23,6 +24,14 @@ export async function signUp(email: string, password: string): Promise<void> {
 
 export async function logOut(): Promise<void> {
   await signOut(auth);
+}
+
+export async function signInAsGuest(): Promise<void> {
+  await signInAnonymously(auth);
+}
+
+export function accountLabel(user: User): string {
+  return user.email ?? `Гость №${user.uid.slice(0, 6)}`;
 }
 
 const ERROR_MESSAGES: Record<string, string> = {

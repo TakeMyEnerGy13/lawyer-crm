@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { authErrorMessage, signIn, signUp } from '../lib/auth-api';
+import { authErrorMessage, signIn, signInAsGuest, signUp } from '../lib/auth-api';
 
 export function AuthScreen() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
@@ -7,6 +7,17 @@ export function AuthScreen() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  async function handleGuest() {
+    setBusy(true);
+    setError(null);
+    try {
+      await signInAsGuest();
+    } catch (err) {
+      setError(authErrorMessage(err));
+      setBusy(false);
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -51,6 +62,9 @@ export function AuthScreen() {
         {error && <p className="form-error" role="alert">{error}</p>}
         <button type="submit" className="auth__submit" disabled={busy}>
           {mode === 'signin' ? 'Войти' : 'Зарегистрироваться'}
+        </button>
+        <button type="button" className="auth__guest" onClick={handleGuest} disabled={busy}>
+          Попробовать без регистрации
         </button>
         <button
           type="button"

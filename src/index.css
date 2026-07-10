@@ -459,6 +459,25 @@ select {
   cursor: default;
 }
 
+.auth__guest {
+  height: 36px;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.auth__guest:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+.auth__guest:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .auth__switch {
   background: none;
   border: none;
