@@ -810,8 +810,10 @@ select {
   .counter {
     padding: 8px 10px;
   }
+}
 
-  /* table becomes a card list: all fields stay visible */
+/* Below 860px the 7-column table stops fitting — switch to a card list */
+@media (max-width: 860px) {
   .clients thead {
     display: none;
   }
