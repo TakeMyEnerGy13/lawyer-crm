@@ -5,11 +5,14 @@ const BOT_TOKEN = '8694560136:AAGws739WkZx8S-Q_NwBSciqXaRwqyGJlCY';
 // Public demo channel — reviewers can watch notifications live: t.me/TestoviyALerts
 const CHAT_ID = '@TestoviyALerts';
 
-export function notifyNewClient(input: { name: string; phone: string; caseNote: string }): void {
+export function notifyNewClient(input: {
+  name: string; phone: string; caseNote: string; account: string;
+}): void {
   const lines = [
     `Новый клиент: ${input.name}`,
     input.phone && `Телефон: ${input.phone}`,
     input.caseNote && `Дело: ${input.caseNote}`,
+    input.account && `Профиль: ${input.account}`,
   ].filter(Boolean);
 
   // Fire-and-forget: a failed notification must never break adding a client.

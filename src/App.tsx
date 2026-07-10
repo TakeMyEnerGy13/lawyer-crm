@@ -88,7 +88,7 @@ function Dashboard({ user }: { user: User }) {
       <AddClientForm
         onAdd={async (input) => {
           await addClient(user.uid, input);
-          notifyNewClient(input);
+          notifyNewClient({ ...input, account: user.email ?? '' });
         }}
       />
       <Counters counts={counts} active={filter} onToggle={(s) => setFilter(filter === s ? null : s)} />
