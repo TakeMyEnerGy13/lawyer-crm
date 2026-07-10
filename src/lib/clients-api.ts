@@ -40,6 +40,12 @@ export async function updateClientStatus(id: string, status: ClientStatus): Prom
   await updateDoc(doc(clientsCol, id), { status });
 }
 
+export async function updateClient(id: string, input: {
+  name: string; phone: string; caseNote: string;
+}): Promise<void> {
+  await updateDoc(doc(clientsCol, id), input);
+}
+
 export async function deleteClient(id: string): Promise<void> {
   await deleteDoc(doc(clientsCol, id));
 }

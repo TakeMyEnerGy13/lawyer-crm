@@ -5,7 +5,7 @@ import { ClientsTable } from './components/ClientsTable';
 import { Counters } from './components/Counters';
 import { ExportMenu } from './components/ExportMenu';
 import { logOut, watchAuth, type User } from './lib/auth-api';
-import { addClient, deleteClient, subscribeClients, updateClientStatus } from './lib/clients-api';
+import { addClient, deleteClient, subscribeClients, updateClient, updateClientStatus } from './lib/clients-api';
 import { countByStatus, filterByStatus, searchClients, sortClients } from './lib/clients-logic';
 import type { Client, ClientStatus } from './types';
 
@@ -13,6 +13,7 @@ function Dashboard({ user }: { user: User }) {
   const [clients, setClients] = useState<Client[] | null>(null); // null = loading
   const [filter, setFilter] = useState<ClientStatus | null>(null);
   const [query, setQuery] = useState('');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [loadError, setLoadError] = useState(false);
 
   useEffect(
@@ -26,6 +27,33 @@ function Dashboard({ user }: { user: User }) {
     () => searchClients(filterByStatus(sorted, filter), query),
     [sorted, filter, query],
   );
+
+  const selected = useMemo(() => sorted.filter((c) => selectedIds.has(c.id)), [sorted, selectedIds]);
+
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll(visible: Client[]) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      const allSelected = visible.every((c) => next.has(c.id));
+      for (const c of visible) {
+        if (allSelected) next.delete(c.id);
+        else next.add(c.id);
+      }
+      return next;
+    });
+  }
+
+  function handleEdit(id: string, input: { name: string; phone: string; caseNote: string }) {
+    updateClient(id, input).catch(() => window.alert('Не удалось сохранить изменения. Попробуйте ещё раз.'));
+  }
 
   function handleDelete(client: Client) {
     if (window.confirm(`Удалить клиента «${client.name}»?`)) {
@@ -56,7 +84,7 @@ function Dashboard({ user }: { user: User }) {
           placeholder="Поиск по имени, телефону или делу"
           aria-label="Поиск клиентов"
         />
-        <ExportMenu clients={sorted} filtered={filtered} />
+        <ExportMenu clients={sorted} filtered={filtered} selected={selected} />
       </div>
       {loadError && <p className="empty" role="alert">Не удалось загрузить данные. Обновите страницу.</p>}
       {clients === null && !loadError && <p className="empty">Загрузка…</p>}
@@ -64,8 +92,12 @@ function Dashboard({ user }: { user: User }) {
         <ClientsTable
           clients={sorted}
           filtered={filtered}
+          selectedIds={selectedIds}
           onStatusChange={updateClientStatus}
           onDelete={handleDelete}
+          onEdit={handleEdit}
+          onToggleSelect={toggleSelect}
+          onToggleSelectAll={toggleSelectAll}
         />
       )}
     </main>

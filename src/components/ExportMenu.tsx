@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Client } from '../types';
 import { filterAddedSince, sortClients, toCsv, type SortMode } from '../lib/clients-logic';
 
-type Scope = 'filtered' | 'all' | 'since';
+type Scope = 'selected' | 'filtered' | 'all' | 'since';
 
 const LAST_EXPORT_KEY = 'lawyer-crm:last-csv-export';
 
@@ -22,9 +22,10 @@ function download(clients: Client[]) {
   URL.revokeObjectURL(url);
 }
 
-export function ExportMenu({ clients, filtered }: {
+export function ExportMenu({ clients, filtered, selected }: {
   clients: Client[];   // full base
-  filtered: Client[];  // current selection (search + status filter)
+  filtered: Client[];  // current view (search + status filter)
+  selected: Client[];  // checked rows
 }) {
   const [open, setOpen] = useState(false);
   const [scope, setScope] = useState<Scope>('filtered');
@@ -43,6 +44,12 @@ export function ExportMenu({ clients, filtered }: {
 
   const sinceList = filterAddedSince(clients, lastExport);
   const scopes: { value: Scope; label: string; list: Client[]; hint?: string }[] = [
+    {
+      value: 'selected',
+      label: 'Выбранные галочками',
+      list: selected,
+      hint: selected.length === 0 ? 'никто не выбран' : undefined,
+    },
     { value: 'filtered', label: 'Текущая выборка', list: filtered },
     { value: 'all', label: 'Вся база', list: clients },
     {
@@ -66,8 +73,15 @@ export function ExportMenu({ clients, filtered }: {
 
   return (
     <div className="export" ref={rootRef}>
-      <button className="toolbar__export" onClick={() => setOpen(!open)} aria-expanded={open}>
-        Экспорт CSV
+      <button
+        className="toolbar__export"
+        onClick={() => {
+          if (!open && selected.length > 0) setScope('selected');
+          setOpen(!open);
+        }}
+        aria-expanded={open}
+      >
+        Экспорт CSV{selected.length > 0 ? ` · ${selected.length}` : ''}
       </button>
       {open && (
         <div className="export__menu" role="dialog" aria-label="Параметры экспорта">

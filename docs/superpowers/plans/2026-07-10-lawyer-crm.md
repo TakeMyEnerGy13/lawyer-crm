@@ -692,3 +692,9 @@ git add README.md && git commit -m "docs: README with submission log"
 1. Линейка шапки: убрать толстую 3px, оставить 1px.
 2. CSV: кнопка → popover-меню: scope (текущая выборка / вся база / добавленные после последнего экспорта — метка в localStorage) + сортировка (новые/старые/по имени). Чистая логика sortClients/filterAddedSince — TDD.
 3. Firebase Auth (email/password) + per-user данные: ownerId в документах, query where(ownerId==uid) с клиентской сортировкой (без composite index), rules «только свои записи» (пользователь публикует в консоли), экран входа/регистрации в стиле анкора, кнопка выхода. README: обновить компромиссы.
+
+---
+
+### Task 10: Инлайн-правка клиента + выборка чекбоксами в CSV
+
+updateClient(id, {name,phone,caseNote}) в API; инлайн-редактирование строки (клик по имени/карандаш, ✓/Esc); чекбоксы выборки + select-all по видимым; ExportMenu: scope «Выбранные (N)». Смоук, деплой.

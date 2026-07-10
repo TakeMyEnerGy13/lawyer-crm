@@ -262,6 +262,7 @@ select {
 }
 
 .toolbar__export {
+  white-space: nowrap;
   height: 34px;
   padding: 0 12px;
   background: var(--surface);
@@ -515,7 +516,40 @@ select {
   white-space: nowrap;
 }
 
-.row-delete {
+.clients__check {
+  width: 32px;
+  padding-right: 0 !important;
+}
+
+.clients__check input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.clients__row--selected td {
+  background: var(--accent-soft);
+}
+
+.clients__name {
+  padding: 0;
+  background: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline dotted transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.clients__name:hover {
+  text-decoration-color: var(--text-muted);
+}
+
+.clients__actions {
+  white-space: nowrap;
+}
+
+.row-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -530,9 +564,42 @@ select {
   transition: color 150ms cubic-bezier(0.25, 1, 0.5, 1), background 150ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.row-delete:hover {
+.row-action:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+.row-action--danger:hover:not(:disabled) {
   color: var(--danger);
   background: var(--accent-soft);
+}
+
+.row-action--save {
+  color: var(--accent);
+}
+
+.row-action--save:hover:not(:disabled) {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+}
+
+.row-action:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.clients__edit-row input {
+  width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.clients__edit-actions {
+  white-space: nowrap;
 }
 
 .visually-hidden {
@@ -601,10 +668,11 @@ select {
     padding: 8px 10px;
   }
 
-  .clients th:nth-child(3),
-  .clients td:nth-child(3),
-  .clients th:nth-child(5),
-  .clients td:nth-child(5) {
+  /* hide case note (4) and date (6) columns; checkbox is column 1 */
+  .clients th:nth-child(4),
+  .clients td:nth-child(4),
+  .clients th:nth-child(6),
+  .clients td:nth-child(6) {
     display: none;
   }
 }
