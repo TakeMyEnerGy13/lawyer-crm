@@ -677,3 +677,10 @@ Expected: полный сценарий ТЗ работает на живой с
 ```bash
 git add README.md && git commit -m "docs: README with submission log"
 ```
+
+---
+
+### Task 8: Расширение сверх ТЗ (по запросу пользователя)
+
+Фичи: поиск по имени/телефону, удаление клиента с confirm, поле «суть дела» (`caseNote`), экспорт CSV.
+Логика (searchClients, toCsv) — TDD в `clients-logic`; `deleteClient` в API; UI: поле поиска и кнопка CSV в тулбаре над таблицей, колонка «Суть дела», кнопка удаления в строке (inline SVG). CSV с BOM и `;` для Excel. Смоук через gstack, затем деплой.
