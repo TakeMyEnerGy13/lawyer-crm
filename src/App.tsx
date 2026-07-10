@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AddClientForm } from './components/AddClientForm';
 import { AuthScreen } from './components/AuthScreen';
+import { ClientCard } from './components/ClientCard';
 import { ClientsTable } from './components/ClientsTable';
 import { Counters } from './components/Counters';
 import { ExportMenu } from './components/ExportMenu';
@@ -14,6 +15,7 @@ function Dashboard({ user }: { user: User }) {
   const [filter, setFilter] = useState<ClientStatus | null>(null);
   const [query, setQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [openId, setOpenId] = useState<string | null>(null);
   const [loadError, setLoadError] = useState(false);
 
   useEffect(
@@ -51,13 +53,22 @@ function Dashboard({ user }: { user: User }) {
     });
   }
 
-  function handleEdit(id: string, input: { name: string; phone: string; caseNote: string }) {
-    updateClient(id, input).catch(() => window.alert('Не удалось сохранить изменения. Попробуйте ещё раз.'));
+  // Live client for the open card: realtime updates keep flowing into the modal.
+  const openClient = useMemo(
+    () => (openId === null ? null : sorted.find((c) => c.id === openId) ?? null),
+    [sorted, openId],
+  );
+
+  function handleSaveCard(input: { name: string; phone: string; caseNote: string; status: ClientStatus }) {
+    if (openId === null) return;
+    updateClient(openId, input).catch(() => window.alert('Не удалось сохранить изменения. Попробуйте ещё раз.'));
+    setOpenId(null);
   }
 
   function handleDelete(client: Client) {
     if (window.confirm(`Удалить клиента «${client.name}»?`)) {
       deleteClient(client.id).catch(() => window.alert('Не удалось удалить. Попробуйте ещё раз.'));
+      setOpenId((prev) => (prev === client.id ? null : prev));
     }
   }
 
@@ -95,9 +106,17 @@ function Dashboard({ user }: { user: User }) {
           selectedIds={selectedIds}
           onStatusChange={updateClientStatus}
           onDelete={handleDelete}
-          onEdit={handleEdit}
+          onOpen={(c) => setOpenId(c.id)}
           onToggleSelect={toggleSelect}
           onToggleSelectAll={toggleSelectAll}
+        />
+      )}
+      {openClient && (
+        <ClientCard
+          client={openClient}
+          onSave={handleSaveCard}
+          onDelete={() => handleDelete(openClient)}
+          onClose={() => setOpenId(null)}
         />
       )}
     </main>
