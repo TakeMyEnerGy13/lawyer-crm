@@ -183,6 +183,47 @@ select {
   color: var(--accent);
 }
 
+/* Toolbar (search + export) */
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.toolbar__search {
+  flex: 1;
+  height: 34px;
+  padding: 0 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.toolbar__search::placeholder {
+  color: var(--text-muted);
+}
+
+.toolbar__export {
+  height: 34px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease-out;
+}
+
+.toolbar__export:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+.toolbar__export:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 /* Table */
 
 .clients {
@@ -256,6 +297,42 @@ select {
   color: var(--tint-closed-text);
 }
 
+.clients__note {
+  color: var(--text-muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 150ms ease-out, background 150ms ease-out;
+}
+
+.row-delete:hover {
+  color: var(--danger);
+  background: #fef2f2;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
 /* Empty / loading states */
 
 .empty {
@@ -283,8 +360,10 @@ select {
     padding: 8px 10px;
   }
 
-  .clients th:nth-child(4),
-  .clients td:nth-child(4) {
+  .clients th:nth-child(3),
+  .clients td:nth-child(3),
+  .clients th:nth-child(5),
+  .clients td:nth-child(5) {
     display: none;
   }
 }

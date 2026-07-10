@@ -5,6 +5,7 @@ export interface Client {
   name: string;
   phone: string;
   status: ClientStatus;
+  caseNote?: string; // short case description, absent on older records
   createdAt: Date | null; // null while serverTimestamp is pending
 }
 
