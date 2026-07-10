@@ -1,23 +1,28 @@
 /* Design anchor: «Кабинет, бумага, сургуч» — see design.md */
 
 :root {
-  --bg: oklch(0.965 0.008 85);
-  --surface: oklch(0.99 0.004 85);
-  --surface-hover: oklch(0.975 0.007 85);
-  --border: oklch(0.9 0.012 80);
-  --border-strong: oklch(0.83 0.015 80);
-  --text: oklch(0.26 0.012 75);
-  --text-muted: oklch(0.52 0.015 75);
+  --bg: oklch(0.94 0.012 85);
+  --surface: oklch(0.995 0.003 85);
+  --surface-hover: oklch(0.965 0.008 85);
+  --head-band: oklch(0.955 0.01 85);
+  --border: oklch(0.85 0.018 80);
+  --border-strong: oklch(0.72 0.025 78);
+  --text: oklch(0.24 0.012 75);
+  --text-muted: oklch(0.47 0.018 75);
   --accent: oklch(0.45 0.13 28);
   --accent-hover: oklch(0.39 0.12 28);
-  --accent-soft: oklch(0.94 0.02 28);
-  --tint-new-bg: oklch(0.93 0.025 262);
-  --tint-new-text: oklch(0.4 0.09 262);
-  --tint-progress-bg: oklch(0.93 0.05 85);
-  --tint-progress-text: oklch(0.44 0.09 70);
-  --tint-closed-bg: oklch(0.93 0.04 150);
-  --tint-closed-text: oklch(0.4 0.08 150);
+  --accent-soft: oklch(0.93 0.025 28);
+  --tint-new-bg: oklch(0.93 0.03 262);
+  --tint-new-text: oklch(0.38 0.1 262);
+  --tint-new-border: oklch(0.75 0.06 262);
+  --tint-progress-bg: oklch(0.93 0.06 85);
+  --tint-progress-text: oklch(0.42 0.1 70);
+  --tint-progress-border: oklch(0.75 0.09 80);
+  --tint-closed-bg: oklch(0.93 0.05 150);
+  --tint-closed-text: oklch(0.38 0.09 150);
+  --tint-closed-border: oklch(0.72 0.08 150);
   --danger: oklch(0.5 0.15 28);
+  --shadow-card: 0 1px 2px oklch(0.24 0.012 75 / 0.06);
   --radius: 8px;
   --radius-sm: 6px;
   --font-display: 'Literata', Georgia, serif;
@@ -50,7 +55,7 @@ select {
 }
 
 .page {
-  max-width: 880px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 48px 24px 64px;
 }
@@ -121,6 +126,7 @@ select {
 /* Add form */
 
 .add-form {
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -198,6 +204,7 @@ select {
 }
 
 .counter {
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -219,6 +226,7 @@ select {
 .counter--active {
   border-color: var(--accent);
   background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent), var(--shadow-card);
 }
 
 .counter__value {
@@ -289,6 +297,7 @@ select {
 }
 
 .export__menu {
+  box-shadow: var(--shadow-card);
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
@@ -392,6 +401,7 @@ select {
 }
 
 .auth__card {
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -467,6 +477,7 @@ select {
 /* Table */
 
 .clients {
+  box-shadow: var(--shadow-card);
   width: 100%;
   border-collapse: collapse;
   background: var(--surface);
@@ -476,7 +487,9 @@ select {
 }
 
 .clients th {
-  padding: 10px 16px;
+  background: var(--head-band);
+  white-space: nowrap;
+  padding: 10px 14px;
   text-align: left;
   font-size: 11px;
   font-weight: 600;
@@ -487,7 +500,7 @@ select {
 }
 
 .clients td {
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--border);
   font-variant-numeric: tabular-nums;
 }
@@ -506,6 +519,10 @@ select {
 
 .clients td:first-child {
   font-weight: 500;
+}
+
+.clients td:nth-child(6) {
+  white-space: nowrap;
 }
 
 .clients__note {
@@ -629,21 +646,25 @@ select {
 .badge--new {
   background-color: var(--tint-new-bg);
   color: var(--tint-new-text);
+  box-shadow: inset 0 0 0 1px var(--tint-new-border);
 }
 
 .badge--in_progress {
   background-color: var(--tint-progress-bg);
   color: var(--tint-progress-text);
+  box-shadow: inset 0 0 0 1px var(--tint-progress-border);
 }
 
 .badge--closed {
   background-color: var(--tint-closed-bg);
   color: var(--tint-closed-text);
+  box-shadow: inset 0 0 0 1px var(--tint-closed-border);
 }
 
 /* Empty / loading states */
 
 .empty {
+  box-shadow: var(--shadow-card);
   margin: 0;
   padding: 32px 16px;
   background: var(--surface);
