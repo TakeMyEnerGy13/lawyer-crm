@@ -2,7 +2,8 @@
 // The token belongs to a throwaway bot created for this test task only —
 // it ships in the public bundle by design (see README, security tradeoffs).
 const BOT_TOKEN = '8694560136:AAGws739WkZx8S-Q_NwBSciqXaRwqyGJlCY';
-const CHAT_ID = '1348477787';
+// Public demo channel — reviewers can watch notifications live: t.me/TestoviyALerts
+const CHAT_ID = '@TestoviyALerts';
 
 export function notifyNewClient(input: { name: string; phone: string; caseNote: string }): void {
   const lines = [
