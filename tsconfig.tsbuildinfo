@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx"],"version":"5.8.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/lib/clients-api.ts","./src/lib/clients-logic.test.ts","./src/lib/clients-logic.ts","./src/lib/firebase.ts"],"version":"5.8.3"}
